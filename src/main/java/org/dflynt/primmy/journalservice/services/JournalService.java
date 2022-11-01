@@ -94,29 +94,10 @@ public class JournalService {
         return journalRepository.save(journal);
     }
 
-    public boolean updateJournal(String journalId, Map<String, String> changes) {
+    public boolean updateJournalText(String journalId, Journal newJournal) {
         Journal journal = getJournalById(journalId);
 
-        for(String s : changes.keySet()) {
-            switch(s) {
-                case "title":
-                    journal.setTitle(changes.get("title"));
-                    break;
-                case "entry":
-                    journal.setEntry(changes.get("entry"));
-                    break;
-                case "figures":
-                    journal.setFigures(changes.get("figures"));
-                    break;
-                case "lastModified":
-                    journal.setLastModified(Timestamp.valueOf(s));
-                    break;
-                case "hidden":
-                    journal.setHidden(Boolean.valueOf(changes.get("hidden")));
-                    break;
-            }
-        }
-
+        journal.setEntry(newJournal.getEntry());
         journalRepository.save(journal);
 
         return true;

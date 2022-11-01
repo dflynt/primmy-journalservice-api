@@ -108,9 +108,9 @@ public class JournalController {
         }
     }
 
-    @PatchMapping("/journal/{journalId}")
-    public ResponseEntity patchJournal(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable String journalId, @RequestBody Map<String, String> changes) throws Exception {
-        journalService.updateJournal(journalId, changes);
+    @PostMapping("/journal/{journalId}")
+    public ResponseEntity patchJournal(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable String journalId, @RequestBody Journal journal) throws Exception {
+        journalService.updateJournalText(journalId, journal);
         logger.info("UPDATE journal {}", journalId);
         return null;
     }
