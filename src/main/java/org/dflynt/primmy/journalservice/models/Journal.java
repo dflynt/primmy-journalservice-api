@@ -23,6 +23,9 @@ public class Journal {
     @Column(name = "title")
     String title;
 
+    @Column(name = "subtitle")
+    String subTitle;
+
     @Column(name = "entry")
     String entry;
 
@@ -45,11 +48,12 @@ public class Journal {
 
     public Journal(String test) {}
 
-    public Journal(String journalId, String userId, String title, String entry, String figures,
+    public Journal(String journalId, String userId, String title, String subTitle, String entry, String figures,
                    Timestamp createdDate, Timestamp lastModified, boolean hidden, String topicId) {
         this.journalId = journalId;
         this.userId = userId;
         this.title = title;
+        this.subTitle = subTitle;
         this.entry = entry;
         this.figures = figures;
         this.createdDate = createdDate;

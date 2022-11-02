@@ -2,14 +2,10 @@ package org.dflynt.primmy.journalservice.controllers;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.apache.coyote.Response;
-import org.dflynt.primmy.journalservice.exceptions.InvalidTokenException;
-import org.dflynt.primmy.journalservice.exceptions.TokenExpirationException;
 import org.dflynt.primmy.journalservice.models.Figure;
 import org.dflynt.primmy.journalservice.models.Journal;
 import org.dflynt.primmy.journalservice.models.JournalPreview;
 import org.dflynt.primmy.journalservice.models.Topic;
-import org.dflynt.primmy.journalservice.services.AuthService;
 import org.dflynt.primmy.journalservice.services.JournalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +33,6 @@ public class JournalController {
 
     @Autowired
     JournalService journalService;
-
-    @Autowired
-    AuthService authservice;
 
     private static final Logger logger = LoggerFactory.getLogger(JournalController.class);
 
@@ -108,24 +101,25 @@ public class JournalController {
         }
     }
 
-    @PostMapping("/journal/{journalId}")
-    public ResponseEntity patchJournal(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable String journalId, @RequestBody Journal journal) throws Exception {
-        journalService.updateJournalText(journalId, journal);
+    @PutMapping("/journal/{journalId}")
+    public ResponseEntity patchJournal(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable String journalId, @RequestBody String journalText) throws Exception {
+        logger.info("Request body: " + journalText);
+        journalService.updateJournalText(journalId, journalText);
         logger.info("UPDATE journal {}", journalId);
-        return null;
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @DeleteMapping(value="/journal/{journalId}")
     public ResponseEntity deleteJournalById(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable String journalId) throws Exception{
-
+        logger.info("Deleting journalId: " + journalId);
         journalService.deleteSingleJournalByJournalId(journalId);
-        return new ResponseEntity("Deleted", HttpStatus.OK);
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @DeleteMapping(value="/journal/user/{userId}")
     public ResponseEntity deleteAllJournalsByUserId(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable String userId) throws Exception{
         journalService.deleteAllJournalsByUserId(userId);
-        return new ResponseEntity("Deleted", HttpStatus.OK);
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @GetMapping("/journal/{journalId}/figures")

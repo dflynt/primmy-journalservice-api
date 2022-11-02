@@ -20,4 +20,8 @@ public interface FigureRepository extends CrudRepository<Figure, Long> {
     @Modifying
     @Query(value = "DELETE FROM figure where figureId = :figureId and journalId = :journalId", nativeQuery = true)
     void deleteByUserIdAndFigureId(@Param("journalId") String journalId, @Param("figureId") String figureId);
+
+    @Modifying
+    @Query(value = "DELETE FROM figure WHERE journalId = :journalId", nativeQuery = true)
+    void deleteAllFiguresByJournalId(@Param("journalId") String journalId);
 }

@@ -94,13 +94,8 @@ public class JournalService {
         return journalRepository.save(journal);
     }
 
-    public boolean updateJournalText(String journalId, Journal newJournal) {
-        Journal journal = getJournalById(journalId);
-
-        journal.setEntry(newJournal.getEntry());
-        journalRepository.save(journal);
-
-        return true;
+    public void updateJournalText(String journalId, String journalText) {
+        journalRepository.updateJournalEntryText(journalId, journalText);
     }
 
     public List<Figure> getFigures(String journalId) {
@@ -125,6 +120,7 @@ public class JournalService {
 
     public void deleteSingleJournalByJournalId(String journalId) {
         journalRepository.deleteSingleJournalByJournalId(journalId);
+        figureRepository.deleteAllFiguresByJournalId(journalId);
     }
 
     public void deleteAllJournalsByUserId(String userId) {

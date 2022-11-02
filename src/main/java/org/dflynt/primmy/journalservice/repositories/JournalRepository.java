@@ -24,4 +24,8 @@ public interface JournalRepository extends CrudRepository<Journal, Long> {
     @Modifying
     @Query(value = "DELETE FROM Journal WHERE userid = :userId", nativeQuery = true)
     void deleteAllJournalsByUserId(@Param("userId") String userId);
+
+    @Modifying
+    @Query(value = "UPDATE Journal SET entry = :entry WHERE journalId = :journalId", nativeQuery = true)
+    void updateJournalEntryText(@Param("journalId") String journalId, @Param ("entry") String entryText);
 }
